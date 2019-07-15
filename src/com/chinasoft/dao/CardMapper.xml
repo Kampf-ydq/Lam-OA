@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.CardMapper">
+	
+	<resultMap type="Employee" id="emplist">
+		<result property="yno" column="yno" />
+		<result property="yname" column="yname" />
+		<result property="zname" column="zname" />
+		<result property="pname" column="pname" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="adress" column="adress" />
+		<result property="salary" column="salary" />
+		
+		<!-- 映射多个字段信息 -->
+		<association property="card" javaType="Card" resultMap="cardResult" />
+	</resultMap>
+	
+	<!-- 对应显示的是Card.java中的内容 -->
+	<resultMap type="Card" id="cardResult">
+		<result property="c_id" column="c_id" />
+		<result property="c_intro" column="c_intro" />
+		<result property="c_degree" column="c_degree" />
+		<result property="c_star" column="c_star" />
+		<result property="c_picture" column="c_picture" />
+	</resultMap>
+	
+	<!-- 多表查询 -->
+	<select id="selectCardInfo" resultMap="emplist">
+		SELECT * FROM 
+		yuangong e,card c
+		WHERE e.yno=c.c_id
+	</select>
+	
+	
+	
+
+</mapper>

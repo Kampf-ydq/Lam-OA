@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.EmployeeMapper">
+
+	<resultMap type="Employee" id="Employee">
+		<id property="yno" column="yno" />
+		<result property="yname" column="yname" />
+		<result property="zname" column="zname" />
+		<result property="pname" column="pname" />
+		<result property="bnum" column="bnum" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="adress" column="adress" />
+		<result property="salary" column="salary" />
+	</resultMap>
+	
+	
+	<select id="selectAllEmployee" resultMap="Employee">
+		SELECT * FROM yuangong
+	</select>
+
+
+
+
+<delete id="deleteEmployee" parameterType="Employee">
+		delete from yuangong where yno = #{yno}
+	</delete>
+	<delete id="deleteUser" parameterType="User">
+		delete from user where yno = #{yno}
+	</delete>
+	
+	<insert id="addEmployee" parameterType="Employee">
+	insert into
+	yuangong(yno,yname,zname,pname,sex,age,phone,email,adress,salary)
+	values
+	(#{yno},#{yname},#{zname},#{pname},#{sex},#{age},#{phone},#{email},#{adress},#{salary})
+	</insert>
+	
+	<insert id="addUser" parameterType="User">
+	insert into
+	user(yno,pwd,yname)
+	values
+	(#{yno},#{pwd},#{yname})
+	</insert>
+	
+	<select id="selectEmployeeByyno" resultType="Employee">
+		select * from yuangong where yno like CONCAT ('%',#{yno},'%')
+	</select>
+	
+	<select id="selectEmployeeByyname" resultType="Employee" >
+		select * from yuangong where yname like CONCAT ('%',#{yname},'%')
+	</select>
+	<select id="selectEmployeeBytwo" resultType="Employee" >
+		select * from yuangong where yname like CONCAT ('%',#{yname},'%') and yno like CONCAT ('%',#{yno},'%')
+	</select>
+	
+	<update id="updateEmployee" parameterType="Employee">
+		update yuangong set yname=#{yname},zname=#{zname},pname=#{pname},sex=#{sex},age=#{age},phone=#{phone},email=#{email},adress=#{adress},salary=#{salary} where yno=#{yno}
+	</update>
+</mapper>

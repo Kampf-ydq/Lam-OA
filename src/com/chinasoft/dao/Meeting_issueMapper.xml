@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.Meeting_issueMapper">
+
+	<resultMap type="Meeting_issue" id="M_issueList">
+		<id property="meeting_id" column="meeting_id" />
+		<result property="meeting_name" column="meeting_name" />
+		<result property="meeting_place" column="meeting_place" />
+		<result property="start_time" column="start_time" />
+		<result property="end_time" column="end_time" />
+	</resultMap>
+	
+	<select id="selectAllM_issue" resultMap="M_issueList">
+		SELECT * FROM meeting_issue ORDER BY meeting_id DESC
+	</select>
+     <select id="deleteAllMeeting_issue" resultMap="M_issueList">
+		delete from meeting_issue where meeting_id = #{meeting_id}
+	</select>
+
+
+  <!-- 添加 -->
+   <insert id="addMeeting_issue" >
+	insert into
+	meeting_issue(meeting_id,meeting_name,meeting_place,meeting_topic,start_time,end_time)
+	values
+	(#{meeting_id},#{meeting_name},#{meeting_place},#{meeting_topic},#{start_time},#{end_time})
+	</insert>  
+
+	
+	<select id="selectAllMeeting_name" resultMap="M_issueList">
+		select * from meeting_issue where meeting_name like CONCAT ('%',#{meeting_name},'%')
+	</select>
+	
+	<select id="selectAllMeeting_place" resultMap="M_issueList" >
+		select * from meeting_issue where meeting_place like CONCAT ('%',#{meeting_place},'%')
+	</select>
+	
+	<select id="selectAlltwo" resultMap="M_issueList" >
+		select * from meeting_issue where meeting_place like CONCAT ('%',#{meeting_place},'%') and meeting_name like CONCAT ('%',#{meeting_name},'%')
+	</select>
+	 
+	
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="   
+            http://www.springframework.org/schema/beans 
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd   
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd   
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 注解扫描 -->
+	<context:component-scan base-package="com.chinasoft.dao" />
+	<context:component-scan base-package="com.chinasoft.service" />
+	
+	<!-- 读取数据库配置文件，接管mybatis -->
+	<context:property-placeholder location="classpath:db.properties" />
+	<!-- 通过JNDI获取数据源（使用dbcp连接池） -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+	    destroy-method="close" scope="singleton">
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<property name="username" value="${user}"/>
+		<property name="password" value="${password}"/>
+		
+		<!-- 地址池 -->
+		<!-- 数据库连接池在初始化时创建的连接个数 默认是0 -->
+		<!-- <property name="initialSize" value="${initialSize}" /> -->
+		<!-- 定义连接池中的最大连接数默认8个，单机并发的处理能力 -->
+		<!-- <property name="maxActive" value="${maxActive}" /> -->
+		<!-- 定义连接池中允许的最大空闲连接数，默认8个，如果超过设定的数值将被释放掉，如果定义为负数不受限制 -->
+		<!-- <property name="maxIdle" value="${maxIdle}" /> -->
+		<!-- 定义连接池中最小的连接数，默认为0，如果定义中低于这个数，连接池将重新创建新连接 -->
+		<!-- <property name="minIdle" value="${minIdle}" /> -->
+		<!-- 最大等待连接时间毫秒，默认是负数，无限等待。 -->
+		<!-- <property name="maxWait" value="${maxWait}" /> -->
+		<!-- 无用连接回收，超过定义的时间后开始回收 -->
+		<!-- <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" /> -->
+		<!-- 是否开启无用连接回收机制。默认不开启false -->
+		<!-- <property name="removeAbandoned" value="${removeAbandoned}" /> -->
+
+		<!-- 心跳包 -->
+		<!-- 定义开启定时校验，连接池提供校验机制 -->
+		<!-- <property name="testWhileIdle" value="true" /> -->
+		<!-- 特定对Borrow对象处理的时候是否开启校验 -->
+		<!-- <property name="testOnBorrow" value="false" /> -->
+		<!-- 定义对ReturnObject返回时是否校验 -->
+		<!-- <property name="testOnReturn" value="false" /> -->
+		<!-- 测试语句，用来测试校验是否通过，千万别写复杂了 -->
+		<!-- <property name="validationQuery" value="select 1" /> -->
+		<!-- 校验间隔时间 -->
+		<!-- <property name="timeBetweenEvictionRunsMillis" value="60000" /> -->
+		<!-- 每次校验时候的连接数一般跟maxActive值相同 -->
+		<!-- <property name="numTestsPerEvictionRun" value="${maxActive}" /> -->
+	</bean>
+	
+	<!-- 事务管理 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- AOP代理 -->
+	<aop:aspectj-autoproxy />
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* *com.chinasoft.service..*(..))" id="transService"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transService" />
+	</aop:config>
+	
+	<!-- 事务表达式 -->
+	<tx:advice id="txAdvice"  transaction-manager="transactionManager">
+		<tx:attributes>
+		<!-- propagation 事务传播行为种类，如果当前没有事务，就创建一个新事务，如果已存在，则将其加到事务列表中
+			 rollback-for="Exception" 如果抛出异常，立即回滚 -->
+			<tx:method name="chinasoft*" propagation="REQUIRED" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 配置SqlSessionFactoryBean Spring接管mybatis的操作-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:mybatis-config.xml"/> 
+	</bean>
+	
+	<!-- 配置MapperXml文件的映射 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.chinasoft.dao"></property>
+	</bean>
+	
+</beans>
+ 

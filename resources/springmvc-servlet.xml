@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	
+	<!-- 包扫描 -->
+	<context:component-scan base-package="com.chinasoft.controller"/>
+
+	<!-- 静态资源文件 -->
+	<mvc:resources location="/statics/" mapping="/statics/**"/>
+	
+	<!-- 配置消息转换器 -->
+	<mvc:annotation-driven />
+	
+	<!-- 逻辑视图名处理(jsp解析) -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 逻辑视图名处理(html解析) -->
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/html/" />
+		<property name="suffix" value=".html" />
+	</bean> -->
+	
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<!-- 拦截非法访问主页 -->
+		<mvc:interceptor>
+			<!-- 要拦截的url路径 -->
+			<mvc:mapping path="/sys/**"/>
+			<!-- 指定处理类 -->
+			<bean class="com.chinasoft.interceptor.SysInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

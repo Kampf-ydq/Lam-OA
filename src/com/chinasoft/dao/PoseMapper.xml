@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.PoseMapper">
+
+	<!-- <resultMap type="pose" id="poseList">
+		<id property="t_id" column="t_id" />
+		<result property="t_title" column="t_title" />
+		<result property="t_content" column="t_content" />
+		<result property="t_releasetime" column="t_releasetime" />
+		<result property="t_issuer" column="t_issuer" />		
+	</resultMap> -->
+	
+	<select id="selectAllpose" resultType="Pose">
+		SELECT * FROM t_pose ORDER BY t_id DESC
+	</select>
+	
+	<insert id="addPose" parameterType="Pose">
+		INSERT	INTO t_pose
+		VALUES(NULL,#{t_title},#{t_content},#{t_date})
+	</insert>
+	
+	<delete id="deleteByTitle">
+		DELETE FROM
+		t_pose
+		WHERE t_title=#{t_title}
+	</delete>
+
+</mapper>

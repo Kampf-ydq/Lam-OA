@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.BumenMapper">
+
+	<resultMap type="Bumen" id="Bumen">
+		<id property="bnum" column="bnum" />
+		<result property="bname" column="bname" />
+		<result property="bint" column="bint" />
+		
+		
+	</resultMap>
+	
+	
+	<select id="selectAllBumen" resultMap="Bumen">
+		SELECT * FROM bumen
+	</select>
+	
+    <delete id="deleteBumen" parameterType="Bumen">
+		delete from bumen where bnum = #{bnum}
+	</delete>
+	
+	<insert id="addBumen" parameterType="Bumen">
+	insert into
+	bumen(bnum,bname,bint)
+	values
+	(#{bnum},#{bname},#{bint})
+	</insert>
+	
+	<select id="selectBumenBybnum" resultType="Bumen">
+		select * from bumen where bnum like CONCAT ('%',#{bnum},'%')
+	</select>
+	
+	<select id="selectBumenBybname" resultType="Bumen" >
+		select * from bumen where bname like CONCAT ('%',#{bname},'%')
+	</select>
+	<select id="selectBumenBytwo" resultType="Bumen" >
+		select * from bumen where bname like CONCAT ('%',#{bname},'%') and bnum like CONCAT ('%',#{bnum},'%')
+	</select>
+	
+	<update id="updateBumen" parameterType="Bumen">
+		update bumen set bname=#{bname},bint=#{bint} where bnum=#{bnum}
+	</update>
+</mapper>

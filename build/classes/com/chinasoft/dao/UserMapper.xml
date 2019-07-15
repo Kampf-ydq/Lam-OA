@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.UserMapper">
+
+	<select id="selectLoginUser" resultType="User">
+		select * from user u 
+		<trim prefix="where" prefixOverrides="and | or">
+			<if test="yno != null">
+				and u.yno=#{yno} 
+			</if>
+		</trim>
+		
+	</select>
+	
+	
+<select id="selectAllUser" resultType="User">
+		SELECT * FROM user
+	</select>
+	
+	<select id="selectUserByyno" resultType="User">
+		select * from user where yno like CONCAT ('%',#{yno},'%')
+	</select>
+	<select id="selectUserByyno1" resultType="User">
+		select * from user where yno=#{yno}
+	</select>
+	<select id="selectUserByyname" resultType="User" >
+		select * from user where yname like CONCAT ('%',#{yname},'%')
+	</select>
+	<select id="selectUserBytwo" resultType="User" >
+		select * from user where yname like CONCAT ('%',#{yname},'%') and yno like CONCAT ('%',#{yno},'%')
+	</select>
+	
+	<delete id="deleteUser" parameterType="User">
+		delete from user where yno = #{yno}
+	</delete>
+	
+	<update id="updateUser" parameterType="User">
+		update user set pwd=#{pwd} where yno=#{yno}
+	</update>
+</mapper>

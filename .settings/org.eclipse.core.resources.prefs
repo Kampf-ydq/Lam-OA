@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/jsp/table.jsp=UTF-8
+encoding//WebContent/statics/css/skin_/login.css=UTF-8
+encoding//WebContent/statics/css/skin_/main.css=UTF-8
+encoding//src/com/chinasoft/controller/BumenController.java=UTF-8
+encoding//src/com/chinasoft/controller/EmployeeController.java=UTF-8
+encoding//src/com/chinasoft/controller/LoginController.java=UTF-8
+encoding//src/com/chinasoft/dao/UserMapper.java=UTF-8
+encoding//src/com/chinasoft/service/impl/EmployeeServiceImpl.java=UTF-8
+encoding//src/com/chinasoft/service/impl/UserServiceImpl.java=UTF-8

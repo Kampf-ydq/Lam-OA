@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.SignMapper">
+
+	<insert id="addSignData" parameterType="Sign">
+		INSERT INTO SIGN(g_yno,g_yname,g_pname,g_zname,g_date,g_scode)
+		VALUES (#{g_yno},#{g_yname},#{g_pname},#{g_zname},#{g_date},#{g_scode}) 
+	</insert>
+	
+	
+	<!-- 分页查询 -->
+	<select id="selectAllSign" resultType="Sign">
+		SELECT * FROM SIGN
+	</select>
+	
+	
+	<!-- （模糊查询） -->
+	<select id="searchEmpByNo" resultType="Sign">
+		SELECT * FROM SIGN WHERE g_yno LIKE CONCAT('%',#{g_yno},'%')
+	</select>
+	
+	<!-- 统计查询（动态SQL） -->
+	<select id="selectByStatus" resultType="int">
+		SELECT count(*) FROM sign 
+		where g_scode=#{g_scode}
+		<if test="g_date != null">and g_date=#{g_date}</if>
+	</select>
+	
+	
+	<delete id="deleteSignById">
+		DELETE FROM SIGN WHERE g_id=#{g_id}
+	</delete>
+
+	<update id="modify" parameterType="Sign">
+		update SIGN
+		<set>
+			<if test="g_date != null">g_date=#{g_date},</if>
+			<if test="g_scode != null">g_scode=#{g_scode}</if>
+		</set>
+		where g_id=#{g_id}
+	</update>
+
+</mapper>

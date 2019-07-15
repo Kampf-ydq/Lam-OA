@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chinasoft.dao.Meeting_informationMapper">
+
+	<resultMap type="Meeting_information" id="M_informationList">
+		<id property="meeting_id" column="meeting_id" />
+		<result property="meeting_name" column="meeting_name" />
+		<result property="meeting_place" column="meeting_place" />
+		<result property="person_nums" column="person_nums" />
+		
+	</resultMap>
+	
+	<!-- 显示 -->
+	<select id="selectAllM_information" resultMap="M_informationList">
+		SELECT * FROM meeting_information
+	</select>
+     <select id="deleteAllMeeting_information" resultMap="M_informationList">
+		delete from meeting_information where meeting_id = #{meeting_id}
+	</select>
+
+<!-- 添加 -->
+   <insert id="addMeeting_information" >
+	insert into
+	meeting_information(meeting_id,meeting_name,meeting_place,person_nums)
+	values
+	(#{meeting_id},#{meeting_name},#{meeting_place},#{person_nums})
+	</insert>  
+	
+	<!-- 编辑 -->
+	
+	<update id="updateMeeting_information" >
+		update meeting_information set meeting_name=#{meeting_name},meeting_place=#{meeting_place},person_nums=#{person_nums}
+		 where meeting_id=#{meeting_id}
+	</update>
+</mapper>

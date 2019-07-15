@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 通过这个配置文件完成mybatis与数据库连接 -->
+<configuration>
+
+	<!-- 全局懒加载 -->
+	<!-- <settings>
+		<setting name="lazyLoadingEnabled" value="false"/>
+	</settings> -->
+	
+	<!-- 别名 -->
+	<typeAliases>
+		<package name="com.chinasoft.pojo" />
+	</typeAliases>
+	
+	
+	<plugins>
+	    <!-- com.github.pagehelper为PageHelper类所在包名 -->
+	    <plugin interceptor="com.github.pagehelper.PageHelper">
+	        <!-- 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库-->        
+	        <property name="dialect" value="mysql"/>
+	    </plugin>
+	</plugins>
+	
+	
+</configuration>
