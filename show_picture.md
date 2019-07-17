@@ -1,0 +1,1 @@
+![](lamoa_show_picture.jpg)
